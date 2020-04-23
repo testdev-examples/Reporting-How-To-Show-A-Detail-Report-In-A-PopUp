@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Reports\DetailReport.repx" />
+    <None Remove="Reports\MainReport.repx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\DetailReport.repx" />
+    <EmbeddedResource Include="Reports\MainReport.repx" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DevExpress.AspNetCore.Reporting" Version="19.2.*" />
+    <PackageReference Include="DevExtreme.AspNet.Core" Version="19.2.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Reports\DetailReport.cs">
+      <DependentUpon>DetailReport.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\DetailReport.Designer.cs">
+      <DependentUpon>DetailReport.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\MainReport.cs">
+      <DependentUpon>MainReport.repx</DependentUpon>
+    </Compile>
+    <Compile Update="Reports\MainReport.Designer.cs">
+      <DependentUpon>MainReport.repx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

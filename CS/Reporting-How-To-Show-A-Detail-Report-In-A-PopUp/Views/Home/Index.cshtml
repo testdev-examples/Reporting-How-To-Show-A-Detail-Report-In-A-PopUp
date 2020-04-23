@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<link href="~/node_modules/jquery-ui-dist/jquery-ui.min.css" rel="stylesheet" />
+
+<script src="~/node_modules/jquery/dist/jquery.min.js"></script>
+<script src="~/node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
+
+<script src="~/node_modules/knockout/build/output/knockout-latest.js"></script>
+
+<script src="~/node_modules/devextreme/dist/js/dx.all.js"></script>
+<link href="~/node_modules/devextreme/dist/css/dx.common.css" rel="stylesheet" />
+<link href="~/node_modules/devextreme/dist/css/dx.light.css" rel="stylesheet" />
+
+<script src="~/js/devextreme/aspnet/dx.aspnet.mvc.js"></script>
+<script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>
+
+<!-- If your application contains the Document Viewer only -->
+<script src="~/node_modules/@@devexpress/analytics-core/dist/js/dx-analytics-core.js"></script>
+<script src="~/node_modules/devexpress-reporting/dist/js/dx-webdocumentviewer.js"></script>
+<link href="~/node_modules/@@devexpress/analytics-core/dist/css/dx-analytics.common.css" rel="stylesheet" />
+<link href="~/node_modules/@@devexpress/analytics-core/dist/css/dx-analytics.light.css" rel="stylesheet" />
+<link href="~/node_modules/devexpress-reporting/dist/css/dx-webdocumentviewer.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    function previewClick(s, e) {
+        var tagValues = e.GetBrickValue().split(",");
+        var catId = tagValues[0];
+        var catName = tagValues[1];
+        $.ajax({
+            type: "POST",
+            data: { categoryID: catId, categoryName: catName },
+            url: "@Url.Action("ShowDetailReport")",
+            success: function (response) {
+                var popup = $("#popup").dxPopup('instance');
+                popup.option("title", "Category Name (ID): " + catName + " (" + catId + ")");
+                popup.option("contentTemplate", response);
+                popup.show();
+            }
+        });
+    }
+</script>
+
+@(Html.DevExpress().WebDocumentViewer("WebDocumentViewer")
+    .Height("1000px")
+    .Bind(new ShowDetailReportInPopup.Reports.MainReport())
+    .ClientSideEvents(configure => { configure.PreviewClick("previewClick"); }))
+
+@(Html.DevExtreme().Popup()
+    .ID("popup")
+)
